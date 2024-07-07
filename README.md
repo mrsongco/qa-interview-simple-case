@@ -56,3 +56,12 @@ npx playwright install
 
 > [!IMPORTANT]
 > We need to be able to review the assignment, so you have to make sure that the forked repo is public.
+
+
+## UPDATE:
+- Used Linux Ubuntu environment for testing.
+- `Task 1` has been completed. Initially the `npm run test:e2e` doesn't seem to work, so I fixed that.
+- Additional tests has been added on `Task 1`.
+- `Task 2` has been completed. For some reason, the Sign Up is not working properly for me as well, so I fixed that.
+- Added few test cases for `Task 2`.
+- Some improvements were done at the homepage.
