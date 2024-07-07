@@ -20,11 +20,15 @@ export const Form: React.FC<FormProps> = ({ setUser }) => {
   const [lastName, setLastName] = useState<string>('')
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
+  const [errorMessage, setErrorMessage] = useState(false)
 
   const handleSubmit = useCallback(async () => {
     if (validateSignupFields(firstName, lastName, email, password)) {
-      await createUser({ firstName, lastName, email, password })
-      setUser({ firstName, lastName, email, password })
+      const newUser = await createUser({ firstName, lastName, email, password })
+      if (!newUser) { setErrorMessage(true) }
+      else {
+        setUser({ firstName, lastName, email, password })
+      }
     }
   }, [firstName, lastName, email, password, setUser])
 
@@ -67,6 +71,9 @@ export const Form: React.FC<FormProps> = ({ setUser }) => {
         setPassword={setPassword}
         {...styleProps}
       />
+      {errorMessage && (
+        <div style={{ color: 'red' }}>User already exists</div>
+      )}
       <Button
         variant="contained"
         onClick={handleSubmit}

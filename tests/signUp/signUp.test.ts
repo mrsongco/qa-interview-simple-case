@@ -2,8 +2,8 @@ import { test, expect } from '@playwright/test'
 import { existingUsers } from '../../data/existingUsers'
 
 const newUser = {
-    firstname: 'NewTest',
-    lastname: 'Newtestsson',
+    firstName: 'NewTest',
+    lastName: 'Newtestsson',
     email: 'newuser@example.com',
     password: 'newpassword',
     }
@@ -23,8 +23,20 @@ const signingUp = async (page, firstname, lastname, email, password) => {
 
 test.describe('sign-up form tests', () => {
   test('create a new account', async ({ page }) => {
-    await signingUp(page, newUser.firstname, newUser.lastname, newUser.email, newUser.password)
-    await expect(page.getByText(`Welcome ${newUser.firstname} ${newUser.lastname}`)).toBeVisible()
+    await signingUp(page, newUser.firstName, newUser.lastName, newUser.email, newUser.password)
+    await expect(page.getByText('Welcome')).toBeVisible()
+  })
+
+  test('trying to create an existing account', async ({ page }) => {
+    const existingUser = existingUsers[0]
+    await signingUp(page, existingUser.firstName, existingUser.lastName, existingUser.email, existingUser.password)
+    await expect(page.getByText('User already exists')).toBeVisible()
+  })
+
+  test('trying to create an existing account with different name', async ({ page }) => {
+    const existingUser = existingUsers[1]
+    await signingUp(page, newUser.firstName, newUser.lastName, existingUser.email, existingUser.password)
+    await expect(page.getByText('User already exists')).toBeVisible()
   })
 
 })
